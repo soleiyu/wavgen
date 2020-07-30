@@ -1,0 +1,104 @@
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+　　 <title>wavegen</title> 
+</head>
+  <body>
+　　　　  <h1>wavgen</h1>
+    <canvas id="myGraph"></canvas>
+
+  <input id="tb_pnum" size="5" type="text" value="1.0" maxlength="4" onchange="tb_ch()"/>  <br>
+  <input id="tb_sin1" size="5" type="text" value="1.0" maxlength="4" onchange="tb_ch()"/>  <br>
+  <input id="tb_sin2" size="5" type="text" value="1.0" maxlength="4" onchange="tb_ch()"/>  <br>
+  <input id="tb_sin3" size="5" type="text" value="1.0" maxlength="4" onchange="tb_ch()"/>  <br>
+
+　　<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+    <script>
+		var pnum = 200;
+
+		var k1 = 1.0;
+		var k2 = 1.0;
+		var k3 = 1.0;
+
+		var XAA = new Array(pnum);
+		var dat1 = new Array(pnum);
+		var dat2 = new Array(pnum);
+		var dat3 = new Array(pnum);
+
+		var dats = new Array(pnum);
+		var datl = new Array(pnum);
+		
+	calcVals();
+	drawGraph();
+
+	function tb_ch() {
+		pnum = Number(tb_pnum.value);
+		k1 = Number(tb_sin1.value);
+		k2 = Number(tb_sin2.value);
+		k3 = Number(tb_sin3.value);
+
+		calcVals();
+		drawGraph();	
+	}
+
+	function calcVals() {
+		for (var i = 0; i < pnum; i++) {
+			XAA[i] = i;
+			dat1[i] = k1 * Math.sin(2.0 * 3.1415926 * i / pnum);
+			dat2[i] = k2 * Math.sin(4.0 * 3.1415926 * i / pnum);
+			dat3[i] = k3 * Math.sin(6.0 * 3.1415926 * i / pnum);
+
+			dats[i] = dat1[i] + dat2[i] + dat3[i];
+			datl[i] = dats[i];
+			if (datl[i] < -1) {datl[i] = -1;}
+			else if (1 < datl[i]) {datl[i] = 1;}	
+		}
+	}
+
+	function drawGraph() {
+	var ctx = document.getElementById("myGraph");
+	var myGraph = new Chart(ctx, {
+		type: 'line',
+    data: {
+      labels: XAA, datasets: [
+			{
+				label: 'sin',
+				data: dat1,
+				borderColor: "rgba(200,0,0,0.5)",
+				backgroundColor: "rgba(0,0,0,0)"
+			},{
+				label: 'sin2',
+				data: dat2,
+				borderColor: "rgba(0,200,0,0.5)",
+				backgroundColor: "rgba(0,0,0,0)"
+			},{
+				label: 'sin3',
+				data: dat3,
+				borderColor: "rgba(0,0,200,0.5)",
+				backgroundColor: "rgba(0,0,0,0)"
+			},{
+				label: 'limit',
+				data: datl,
+				borderColor: "rgba(50,50,50,1)",
+				backgroundColor: "rgba(0,0,0,0)"
+			},{
+				label: 'sum',
+				data: dats,
+				borderColor: "rgba(150, 150, 150, 0.5)",
+				backgroundColor: "rgba(0,0,0,0)"
+			}]},
+			options: {
+				scales: {
+					yAxes: [{ ticks: {
+						Max: 2, Min: -2, stepSize: 0.1
+					}}],
+					xAxes: [{ display: false}]
+				}
+			}
+		});
+	}
+
+    </script>
+
+  </body>
+</html>
