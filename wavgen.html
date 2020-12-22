@@ -7,10 +7,11 @@
 　　　　  <h1>wavgen</h1>
     <canvas id="myGraph"></canvas>
 
-  <input id="tb_pnum" size="5" type="text" value="1.0" maxlength="4" onchange="tb_ch()"/>  <br>
+  <input id="tb_pnum" size="5" type="text" value="200" maxlength="4" onchange="tb_ch()"/>  <br>
   <input id="tb_sin1" size="5" type="text" value="1.0" maxlength="4" onchange="tb_ch()"/>  <br>
   <input id="tb_sin2" size="5" type="text" value="1.0" maxlength="4" onchange="tb_ch()"/>  <br>
   <input id="tb_sin3" size="5" type="text" value="1.0" maxlength="4" onchange="tb_ch()"/>  <br>
+  <input id="hoge" size="5" type="text" value="hoge" maxlength="40" onchange="tb_ch()"/>  <br>
 
 　　<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
     <script>
@@ -30,6 +31,14 @@
 		
 	calcVals();
 	drawGraph();
+
+
+	mkWav();
+
+	function mkWav() {
+		ret = exec('ls');
+		hoge.value = ret;
+	}
 
 	function tb_ch() {
 		pnum = Number(tb_pnum.value);
